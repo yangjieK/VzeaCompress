@@ -7,7 +7,7 @@ group='com.github.yangjieK'
 
 android {
     compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 23
