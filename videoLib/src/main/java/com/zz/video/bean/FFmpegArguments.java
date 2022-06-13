@@ -1,4 +1,4 @@
-package com.zz.video;
+package com.zz.video.bean;
 
 import java.util.ArrayList;
 

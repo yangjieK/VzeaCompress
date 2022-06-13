@@ -5,17 +5,19 @@ import android.util.Log;
 import com.arthenica.ffmpegkit.FFmpegKit;
 import com.arthenica.ffmpegkit.FFmpegKitConfig;
 import com.arthenica.ffmpegkit.FFmpegSession;
-import com.arthenica.ffmpegkit.FFprobeKit;
 import com.arthenica.ffmpegkit.Level;
-import com.arthenica.ffmpegkit.LogCallback;
-import com.arthenica.ffmpegkit.MediaInformationSession;
 import com.arthenica.ffmpegkit.SessionState;
-import com.arthenica.ffmpegkit.StatisticsCallback;
+import com.zz.video.bean.FFmpegArguments;
+import com.zz.video.bean.VzzFFmpegSession;
+import com.zz.video.bean.VzzMediaInfoSession;
+import com.zz.video.inf.VzzLogListener;
+import com.zz.video.inf.VzzStatisticsListener;
 
 import java.util.List;
 
 public class VzzFFmpegIns {
 
+    private static final int PROBE_MEINFO_TIMEOUT = 3000;
     private static VzzFFmpegIns ins;
 
     private VzzFFmpegIns() {
@@ -37,8 +39,8 @@ public class VzzFFmpegIns {
         FFmpegKitConfig.setLogLevel(level);
     }
 
-    public FFmpegSession compress(FFmpegArguments fFmpegArgs, StatisticsCallback statListener, LogCallback logCallback) {
-        FFmpegSession session = new FFmpegSession(fFmpegArgs.toArray(),null, logCallback, statListener);
+    public VzzFFmpegSession compress(FFmpegArguments fFmpegArgs, VzzStatisticsListener statListener, VzzLogListener logCallback) {
+        VzzFFmpegSession session = new VzzFFmpegSession(fFmpegArgs.toArray(),null, logCallback, statListener);
         FFmpegKitConfig.ffmpegExecute(session);
         if (session.getState() == SessionState.FAILED || !session.getReturnCode().isValueSuccess()) {
             Log.d("VzzFFmpegIns",String.format("FFprobe exited with state %s and rc %s.%s", new Object[]{FFmpegKitConfig.sessionStateToString(session.getState()), session.getReturnCode(), notNull(session.getFailStackTrace(), "\n")}));
@@ -46,8 +48,20 @@ public class VzzFFmpegIns {
         return session;
     }
 
-    public MediaInformationSession getMediaInfo(String path){
-        return FFprobeKit.getMediaInformation(path);
+    public VzzMediaInfoSession getMediaInfo(String path, int timeout){
+        final VzzMediaInfoSession session = new VzzMediaInfoSession(defaultMediaInfoCmdArguments(path));
+        FFmpegKitConfig.getMediaInformationExecute(session, timeout);
+        return session;
+    }
+
+    public VzzMediaInfoSession getMediaInfo(String path){
+        final VzzMediaInfoSession session = new VzzMediaInfoSession(defaultMediaInfoCmdArguments(path));
+        FFmpegKitConfig.getMediaInformationExecute(session, PROBE_MEINFO_TIMEOUT);
+        return session;
+    }
+
+    private  String[] defaultMediaInfoCmdArguments(final String path) {
+        return new String[]{"-v", "error", "-hide_banner", "-print_format", "json", "-show_format", "-show_streams", "-show_chapters", "-i", path};
     }
 
     private String notNull(String string, String valuePrefix) {
