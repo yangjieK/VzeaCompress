@@ -4,7 +4,7 @@ plugins {
 }
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.yangjieK'
-version='1.0.3'
+version='1.0.4'
 
 android {
     compileSdkVersion 32
