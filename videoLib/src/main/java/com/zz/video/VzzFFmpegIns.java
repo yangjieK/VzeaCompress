@@ -15,9 +15,12 @@ import com.zz.video.inf.VzzStatisticsListener;
 
 import java.util.List;
 
+/**
+ * FFmpeg
+ */
 public class VzzFFmpegIns {
 
-    private static final int PROBE_MEINFO_TIMEOUT = 3000;
+    private static final int PROBE_MEDIAINFO_TIMEOUT = 3000;
     private static VzzFFmpegIns ins;
 
     private VzzFFmpegIns() {
@@ -56,7 +59,7 @@ public class VzzFFmpegIns {
 
     public VzzMediaInfoSession getMediaInfo(String path){
         final VzzMediaInfoSession session = new VzzMediaInfoSession(defaultMediaInfoCmdArguments(path));
-        FFmpegKitConfig.getMediaInformationExecute(session, PROBE_MEINFO_TIMEOUT);
+        FFmpegKitConfig.getMediaInformationExecute(session, PROBE_MEDIAINFO_TIMEOUT);
         return session;
     }
 
