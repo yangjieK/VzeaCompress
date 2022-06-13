@@ -1,0 +1,3 @@
+rootProject.name = "VzeaCompress"
+include ':app'
+include ':videoLib'
