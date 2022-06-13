@@ -28,10 +28,12 @@ public class VzzMediaInfo extends MediaInformation {
     }
 
     @Deprecated
+    @Override
     public List<StreamInformation> getStreams() {
         throw new UnsupportedOperationException();
     }
 
+    @Deprecated
     @Override
     public List<Chapter> getChapters() {
         throw new UnsupportedOperationException();
