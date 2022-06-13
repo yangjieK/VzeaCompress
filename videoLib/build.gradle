@@ -7,14 +7,14 @@ group='com.github.yangjieK'
 version='1.0.4'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 32
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 30
+        versionCode 100005
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
